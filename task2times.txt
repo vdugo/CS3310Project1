@@ -1,0 +1,18 @@
+n = 1
+Hanoi took 0.0 seconds
+
+n = 2
+Hanoi took 0.0009999275207519531 seconds
+
+n = 4
+Hanoi took 0.0019741058349609375 seconds
+
+n = 8
+Hanoi took 0.052974700927734375 seconds
+
+n = 16
+Hanoi took 11.7429940700531 seconds
+
+n = 32
+INFEASIBLE ABOUT 136 YEARS
+

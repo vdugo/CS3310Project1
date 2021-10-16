@@ -1,0 +1,47 @@
+n = 10k
+0.03203296661376953 seconds to complete mergesort.
+0.021968603134155273 seconds to complete quicksort.
+
+n = 20k
+0.07600021362304688 seconds to complete mergesort.
+0.045998334884643555 seconds to complete quicksort.
+
+n = 50k
+0.18703508377075195 seconds to complete mergesort.
+0.10299515724182129 seconds to complete quicksort.
+
+n = 100k
+0.4250047206878662 seconds to complete mergesort.
+0.2449662685394287 seconds to complete quicksort.
+
+n = 200k
+0.8820037841796875 seconds to complete mergesort.
+0.4889981746673584 seconds to complete quicksort.
+
+n = 500k
+2.6860337257385254 seconds to complete mergesort.
+1.5619986057281494 seconds to complete quicksort.
+
+n = 1 million
+5.876038551330566 seconds to complete mergesort.
+3.1739985942840576 seconds to complete quicksort.
+
+n = 2 million
+11.921001672744751 seconds to complete mergesort.
+6.6160078048706055 seconds to complete quicksort.
+
+n = 5 million
+31.971009254455566 seconds to complete mergesort.
+21.75799250602722 seconds to complete quicksort.
+
+n = 10 million
+69.29499959945679 seconds to complete mergesort.
+46.90105962753296 seconds to complete quicksort.
+
+n = 20 million
+155.90995860099792 seconds to complete mergesort.
+127.46360993385315 seconds to complete quicksort.
+
+n = 40 million
+334.7736392021179 seconds to complete mergesort.
+319.6049997806549 seconds to complete quicksort.
