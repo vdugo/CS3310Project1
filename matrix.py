@@ -1,4 +1,4 @@
-import numpy as np
+import math
 
 def multiply(A, B, n):
     # initialize the result n x n matrix with 0's
@@ -10,27 +10,114 @@ def multiply(A, B, n):
                 result[i][j] += A[i][k] * B[k][j]
     return result
 
-def strassen(A, B, n):
-    if n == 1:
-        return A * B
-    a11, a12, a21, a22 = split(A)
-    b11, b12, b21, b22 = split(B)
-    p1 = strassen(a11 + a22, b11 + b22,n)  # p1 = (a11 + a22) * (b11 + b22)
-    p2 = strassen(a21 + a22, b11,n)        # p2 = (a21 + a22) * b11
-    p3 = strassen(a11, b12 - b22,n)        # p3 = a11 * (b12 - b22)
-    p4 = strassen(a22, b21 - b11,n)        # p4 = a22 * (b21 - b11)
-    p5 = strassen(a11 + a12, b22,n)        # p5 = (a11 + a12) * b22
-    p6 = strassen(a21 - a11, b11 + b12,n)  # p6 = (a21 - a11) * (b11 + b12)
-    p7 = strassen(a12 - a22, b21 + b22,n)  # p7 = (a12 - a22) * (b21 + b22)
-    c11 = p1 + p4 - p5 + p7  # c11 = p1 + p4 - p5 + p7
-    c12 = p3 + p5            # c12 = p3 + p5
-    c21 = p2 + p4            # c21 = p2 + p4
-    c22 = p1 + p3 - p2 + p6  # c22 = p1 + p3 - p2 + p6
-    C = np.vstack((np.hstack((c11, c12)), np.hstack((c21, c22)))) 
+def mult(A, B):
+    size = len(A)
+    # initialize the result n x n matrix with 0's
+    result = [[0 for _ in range(size)] for _ in range(size)]
+
+    for i in range(size):
+        for j in range(size):
+            for k in range(size):
+                result[i][j] += A[i][k] * B[k][j]
+    return result
+
+
+def strassenHelp(A, B):
+    if len(A) <= 100:
+        return mult(A, B)
+    size = len(A)
+    resize = size // 2
+    A11 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    A12 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    A21 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    A22 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    B11 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    B12 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    B21 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    B22 = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+
+    AResult = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+    BResult = [[0 for _ in range(0, resize)] for _ in range(0, resize)]
+
+    for i in range(0, resize):
+        for j in range(0, resize):
+                A11[i][j] = A[i][j]
+                A12[i][j] = A[i][j + resize]
+                A21[i][j] = A[i + resize][j]
+                A22[i][j] = A[i + resize][j + resize]
+
+                B11[i][j] = B[i][j]
+                B12[i][j] = B[i][j + resize]
+                B21[i][j] = B[i + resize][j]
+                B22[i][j] = B[i + resize][j + resize]
+    
+    AResult = add(A11, A22)
+    BResult = add(B11, B22)
+    p1 = strassenHelp(AResult, BResult)
+    AResult = add(A21, A22)
+    p2 = strassenHelp(AResult, B11)
+    BResult = subtract(B12, B22)
+    p3 = strassenHelp(A11, BResult)
+    BResult = subtract(B21, B11)
+    p4 = strassenHelp(A22, BResult)
+    AResult = add(A11, A12)
+    p5 = strassenHelp(AResult, B22)
+    AResult = subtract(A21, A11)
+    BResult = add(B11, B12)
+    p6 = strassenHelp(AResult, BResult)
+    AResult = subtract(A12, A22)
+    BResult = add(B21, B22)
+    p7 = strassenHelp(AResult, BResult)
+    
+    C12 = add(p3, p5)
+    C21 = add(p2, p4)
+    AResult = add(p1, p4)
+    BResult = add(AResult, p7)
+    C11 = subtract(BResult, p5)
+    AResult = add(p1, p3)
+    BResult = add(AResult, p6)
+    C22 = subtract(BResult, p2)
+
+    # Merging into 1 matrix
+    C = [[0 for _ in range(0, size)] for _ in range(0, size)]
+    for i in range(0, resize):
+        for j in range(0, resize):
+            C[i][j] = C11[i][j]
+            C[i][j + resize] = C12[i][j]
+            C[i + resize][j] = C21[i][j]
+            C[i + resize][j + resize] = C22[i][j]
     return C
 
+def strassen(A,B):
+    # Make the matrices dimensions of 2 for the Strassen algorithm
+    nextPowerOfTwo = lambda n: 2 ** int(math.ceil(math.log(n, 2)))
+    size = len(A)
+    m = nextPowerOfTwo(size)
+    APrep = [[0 for _ in range(m)] for _ in range(m)]
+    BPrep = [[0 for _ in range(m)] for _ in range(m)]
+    for i in range(size):
+        for j in range(size):
+            APrep[i][j] = A[i][j]
+            BPrep[i][j] = B[i][j]
+    CPrep = strassenHelp(APrep, BPrep)
+    C = [[0 for _ in range(size)] for _ in range(size)]
+    for i in range(size):
+        for j in range(size):
+            C[i][j] = CPrep[i][j]
+    return C
 
+def add(A, B):
+    size = len(A)
+    result = [[0 for _ in range(0, size)] for _ in range(0, size)]
+    for i in range(0, size):
+        for j in range(0, size):
+            result[i][j] = A[i][j] + B[i][j]
+    return result
 
-    
-
-    
+def subtract(A, B):
+    size = len(A)
+    result = [[0 for _ in range(0, size)] for _ in range(0, size)]
+    for i in range(0, size):
+        for j in range(0, size):
+            result[i][j] = A[i][j] - B[i][j]
+    return result
