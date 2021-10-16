@@ -9,7 +9,8 @@ from quicksort import quicksort
 # generate a list of random numbers
 numbers = []
 
-for index in range(0, 40000000):
+# change the second number in this range to change the number of elements in the array
+for index in range(0, 250000):
     # the random integers can be from 0 to 1 million
     randomInt = random.randint(0, 1000000 + 1)
     numbers.append(randomInt)
@@ -30,5 +31,3 @@ endTimeQuicksort = time.time()
 totalTimeQuicksort = endTimeQuicksort - startTimeQuicksort
 
 print(totalTimeQuicksort, "seconds to complete quicksort.")
-
-
