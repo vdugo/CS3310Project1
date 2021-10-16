@@ -1,1 +1,19 @@
-n = 
+n = 64
+0.03700828552246094 seconds to complete normal matrix multiplication of 64 by 64 matrix.
+0.03699779510498047 seconds to complete Strassen matrix multiplication of 64 by 64 matrix.
+
+n = 128
+0.2709660530090332 seconds to complete normal matrix multiplication of 128 by 128 matrix.
+0.2610013484954834 seconds to complete Strassen matrix multiplication of 128 by 128 matrix.
+
+n = 256
+2.540983200073242 seconds to complete normal matrix multiplication of 256 by 256 matrix.
+2.0909998416900635 seconds to complete Strassen matrix multiplication of 256 by 256 matrix.
+
+n = 512
+21.221725702285767 seconds to complete normal matrix multiplication of 512 by 512 matrix.
+15.327995538711548 seconds to complete Strassen matrix multiplication of 512 by 512 matrix.
+
+n = 1024
+199.0759983062744 seconds to complete normal matrix multiplication of 1024 by 1024 matrix.
+110.06700158119202 seconds to complete Strassen matrix multiplication of 1024 by 1024 matrix.
